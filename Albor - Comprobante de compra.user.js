@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Comprobante de compra
-// @version      0.1
+// @version      0.2
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
 // @match        https://adblick.alboragro.com/1/Comprobantes_Compra/*
@@ -188,21 +188,21 @@
             var comprobantes = new Set();
             var rows = [];
 
-            for (var i = 0, row; row = tbl.rows[i]; i++) {
-                for (var j = 0, col; col = row.cells[j]; j++) {
+            for (let i = 0, row; row = tbl.rows[i]; i++) {
+                for (let j = 0, col; col = row.cells[j]; j++) {
                     if (col.getAttribute("aria-describedby") == "DetalleGrid_ItemVinculable") {
-                        var json = col.title;
+                        let json = col.title;
                         json = json.replace('_TERRAJSON_','').replaceAll("'",'"');
                         json = JSON.parse(json);
-                        var id = json.ID_Comprobante;
+                        let id = json.ID_Comprobante;
                         comprobantes.add(id);
                         rows.push([id,'']);
                     }
                 }
             }
 
-            for (var it = comprobantes.values(), comprobante; comprobante=it.next().value;) {
-                var obs = getComprobante(comprobante);
+            for (let it = comprobantes.values(), comprobante; comprobante=it.next().value;) {
+                let obs = getComprobante(comprobante);
                 rows.forEach(element => {
                     if (element[0] == comprobante) {
                         element[1] = obs;
@@ -213,12 +213,12 @@
             var head = document.getElementById('jqgh_DetalleGrid_Unidad_Medida');
             head.innerHTML = 'Observaciones';
 
-            for (var r = 1, f; f = tbl.rows[r]; r++) {
-                for (var c = 0, cel; cel = f.cells[c]; c++) {
-                    if (cel.getAttribute("aria-describedby") == "DetalleGrid_Unidad_Medida") {
-                        console.log(cel.title);
-                        cel.title = rows[r - 1][1];
-                        cel.appendChild(document.createTextNode(rows[r - 1][1]));
+            for (let i = 1, row; row = tbl.rows[i]; i++) {
+                for (let j = 0, col; col = row.cells[j]; j++) {
+                    if (col.getAttribute("aria-describedby") == "DetalleGrid_Unidad_Medida") {
+                        console.log(col.title);
+                        col.title = rows[i - 1][1];
+                        col.appendChild(document.createTextNode(rows[i - 1][1]));
                     }
                 }
             }
