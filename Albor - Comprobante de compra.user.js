@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name         Albor - Comprobante de compra
 // @version      0.2
+// @namespace    https://github.com/amasanelli/albor-patch
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
 // @match        https://adblick.alboragro.com/1/Comprobantes_Compra/*
