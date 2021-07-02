@@ -4,26 +4,237 @@
 // @version      0.1
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
-// @match        https://adblick.alboragro.com/*
+// @match        https://adblick.alboragro.com/1/Comprobantes_Compra/*
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
+// @run-at      document-idle
 // ==/UserScript==
 
 (function() {
-    var elemento = document.getElementById('grales-cbte-cpra');
-    var patch = document.createElement("li");
 
-    var label = document.createElement("label");
-    label.class = "control-label";
-    label.appendChild(document.createTextNode("Medio de pago"));
+    function parseObs(obs) {
+        var arr = obs.split(' | ');
+        var res = {};
 
-    var select = document.createElement("select");
-    var opt1 = document.createElement("option");
-    opt1.appendChild(document.createTextNode("OPT1"));
-    select.appendChild(opt1);
+        for (var i=0; i < arr.length; i++) {
+            var element = arr[i];
+            if (element.startsWith('MDP=')) {
+                res.MDP = element.substring(4);
+            } else if (element.startsWith('CMT=')) {
+                res.CMT = element.substring(4);
+            } else {
+                res.CMT = element;
+            }
+        }
+        console.log(res);
 
-    patch.appendChild(label);
-    patch.appendChild(select);
+        return res;
+    }
 
-    elemento.appendChild(patch);
+    function updateObs(obs) {
+        var obj = document.getElementById('Observaciones');
+
+        obj.value = 'CMT=' + obs.CMT + ' | MDP=' + obs.MDP;
+    }
+
+    function getComprobante(id) {
+        var req = new XMLHttpRequest();
+        req.open('GET', 'https://adblick.alboragro.com/1/Ordenes_Compra/Detail/' + id, false);
+        req.send(null);
+        if (req.status == 200) {
+            var obs = new Set();
+            var parser = new DOMParser();
+            var responseDoc = parser.parseFromString(req.responseText, "text/html");
+            obs.add(responseDoc.getElementById('Observaciones').value);
+            var data = Array.from(obs).join(', ');
+            return data;
+        }
+    }
+
+    function addPatch() {
+        var obs = document.getElementById('Observaciones');
+        obs.readOnly = true;
+        obs.style.backgroundColor = "#f2f2f2";
+
+        var parsedObs = parseObs(obs.value);
+
+        var frame0 = document.getElementById('grales-cbte-cpra');
+        var patch = document.createElement("li");
+
+        var label0 = document.createElement("label");
+        label0.class = "control-label";
+        label0.appendChild(document.createTextNode("Comentarios"));
+
+        var cmt = document.createElement("textarea");
+        cmt.style.marginBottom = "30px";
+        cmt.value = parsedObs.CMT;
+        cmt.onchange = function() {
+            parsedObs.CMT = cmt.value;
+            updateObs(parsedObs);
+        }
+
+        var br0 = document.createElement("br");
+
+        var label1 = document.createElement("label");
+        label1.class = "control-label";
+        label1.appendChild(document.createTextNode("Medio de pago"));
+
+        var mdp = document.createElement("textarea");
+        mdp.style.marginBottom = "30px";
+        mdp.value = parsedObs.MDP;
+        mdp.onchange = function() {
+            parsedObs.MDP = mdp.value;
+            updateObs(parsedObs);
+        }
+
+        var br1 = document.createElement("br");
+
+        var label2 = document.createElement("label");
+        label2.class = "control-label";
+        label2.appendChild(document.createTextNode("Agregar medio"));
+
+        var pct = document.createElement("input");
+        pct.classList.add('form-control');
+        pct.type = 'number';
+
+        var label3 = document.createElement("span");
+        label3.appendChild(document.createTextNode(" %"));
+        label3.style.marginRight = "10px";
+
+        var select = document.createElement("select");
+        var opt1 = document.createElement("option");
+        opt1.appendChild(document.createTextNode("APORTE"));
+        var opt2 = document.createElement("option");
+        opt2.appendChild(document.createTextNode("CANJE"));
+        var opt3 = document.createElement("option");
+        opt3.appendChild(document.createTextNode("CH-Fis"));
+        var opt4 = document.createElement("option");
+        opt4.appendChild(document.createTextNode("Echeq"));
+        var opt5 = document.createElement("option");
+        opt5.appendChild(document.createTextNode("TC"));
+        var opt6 = document.createElement("option");
+        opt6.appendChild(document.createTextNode("Transf"));
+        var opt7 = document.createElement("option");
+        opt7.appendChild(document.createTextNode("CH-Fis-Terc"));
+        var opt8 = document.createElement("option");
+        opt8.appendChild(document.createTextNode("Echeq-Terc"));
+        select.appendChild(opt1);
+        select.appendChild(opt2);
+        select.appendChild(opt3);
+        select.appendChild(opt4);
+        select.appendChild(opt5);
+        select.appendChild(opt6);
+        select.appendChild(opt7);
+        select.appendChild(opt8);
+        select.style.marginRight = "10px";
+
+        var d = document.createElement("input");
+        d.classList.add('form-control');
+        d.type = 'number';
+
+        var label4 = document.createElement("span");
+        label4.appendChild(document.createTextNode(" d"));
+        label4.style.marginRight = "10px";
+
+        var btn0 = document.createElement("span");
+        btn0.style.border = "1px solid #000000";
+        btn0.style.padding = "5px";
+        btn0.style.backgroundColor = "#cccccc";
+        btn0.style.cursor = "pointer";
+        btn0.appendChild(document.createTextNode("Agregar"));
+        btn0.onclick = function() {
+            if (pct.value == '' || d.value == '') {
+                alert('Faltan datos')
+                return;
+            }
+            if (mdp.value == 'undefined') {
+                mdp.value = '';
+            }
+            mdp.value += (mdp.value == '' ? '' : ' + ') + pct.value + ' % ' + select.value + ' ' + d.value + ' d';
+
+            parsedObs.MDP = mdp.value;
+            updateObs(parsedObs);
+        }
+
+        patch.appendChild(label0);
+        patch.appendChild(cmt);
+        patch.appendChild(br0);
+
+        patch.appendChild(label1);
+        patch.appendChild(mdp);
+        patch.appendChild(br1);
+
+        patch.appendChild(label2);
+        patch.appendChild(pct);
+        patch.appendChild(label3);
+        patch.appendChild(select);
+        patch.appendChild(d);
+        patch.appendChild(label4);
+        patch.appendChild(btn0);
+
+        frame0.appendChild(patch);
+
+        var frame1 = document.getElementById('opciones-vinculaciones');
+
+        var btn1 = document.createElement("span");
+        btn1.style.border = "1px solid #000000";
+        btn1.style.padding = "5px";
+        btn1.style.backgroundColor = "#cccccc";
+        btn1.style.cursor = "pointer";
+        btn1.appendChild(document.createTextNode("Ver obs"));
+        btn1.onclick = function() {
+            var tbl = document.getElementById('DetalleGrid');
+
+            var comprobantes = new Set();
+            var rows = [];
+
+            for (var i = 0, row; row = tbl.rows[i]; i++) {
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    if (col.getAttribute("aria-describedby") == "DetalleGrid_ItemVinculable") {
+                        var json = col.title;
+                        json = json.replace('_TERRAJSON_','').replaceAll("'",'"');
+                        json = JSON.parse(json);
+                        var id = json.ID_Comprobante;
+                        comprobantes.add(id);
+                        rows.push([id,'']);
+                    }
+                }
+            }
+
+            for (var it = comprobantes.values(), comprobante; comprobante=it.next().value;) {
+                var obs = getComprobante(comprobante);
+                rows.forEach(element => {
+                    if (element[0] == comprobante) {
+                        element[1] = obs;
+                    }
+                })
+            }
+
+            var head = document.getElementById('jqgh_DetalleGrid_Unidad_Medida');
+            head.innerHTML = 'Observaciones';
+
+            for (var r = 1, f; f = tbl.rows[r]; r++) {
+                for (var c = 0, cel; cel = f.cells[c]; c++) {
+                    if (cel.getAttribute("aria-describedby") == "DetalleGrid_Unidad_Medida") {
+                        console.log(cel.title);
+                        cel.title = rows[r - 1][1];
+                        cel.appendChild(document.createTextNode(rows[r - 1][1]));
+                    }
+                }
+            }
+        }
+
+        frame1.appendChild(btn1);
+
+    }
+
+    var tipo = document.getElementById('ID_Tipo_Comprobante');
+    if (tipo.type == 'hidden') {
+        addPatch();
+    } else {
+        tipo.onchange = function() {
+            addPatch();
+        }
+    }
+
 })();
