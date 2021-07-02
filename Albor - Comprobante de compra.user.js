@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Albor - Comprobante de compra
-// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
 // @match        https://adblick.alboragro.com/1/Comprobantes_Compra/*
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
-// @run-at      document-idle
+// @run-at       document-idle
+// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Comprobante%20de%20compra.user.js
 // ==/UserScript==
 
 (function() {
