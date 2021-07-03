@@ -12,6 +12,8 @@
 // ==/UserScript==
 
 (function() {
+    
+    // TEST
 
     function parseObs(obs) {
         var arr = obs.split(' | ');
