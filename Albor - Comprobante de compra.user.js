@@ -14,6 +14,8 @@
 (function() {
     
     // TEST
+    
+    var x = 0;
 
     function parseObs(obs) {
         var arr = obs.split(' | ');
