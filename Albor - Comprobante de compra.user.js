@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 (function() {
-    
+
     function parseObs(obs) {
         var arr = obs.split(' | ');
         var res = {};
