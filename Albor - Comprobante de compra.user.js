@@ -46,7 +46,7 @@
         if (req.status == 200) {
             var obs = new Set();
             var parser = new DOMParser();
-            var responseDoc = parser.parseFromString(req.responseText, "text/html");
+            var responseDoc = parser.parseFromString(req.responseText, 'text/html');
             obs.add(responseDoc.getElementById('Observaciones').value);
             var data = Array.from(obs).join(', ');
             return data;
@@ -56,70 +56,71 @@
     function addPatch() {
         var obs = document.getElementById('Observaciones');
         obs.readOnly = true;
-        obs.style.backgroundColor = "#f2f2f2";
+        obs.style.backgroundColor = '#f2f2f2';
 
         var parsedObs = parseObs(obs.value);
 
         var frame0 = document.getElementById('grales-cbte-cpra');
-        var patch = document.createElement("li");
+        var patch = document.createElement('li');
 
-        var label0 = document.createElement("label");
-        label0.class = "control-label";
-        label0.appendChild(document.createTextNode("Comentarios"));
+        var label0 = document.createElement('label');
+        label0.class = 'control-label';
+        label0.appendChild(document.createTextNode('Comentarios'));
 
-        var cmt = document.createElement("textarea");
-        cmt.style.marginBottom = "30px";
+        var cmt = document.createElement('textarea');
+        cmt.style.marginBottom = '30px';
         cmt.value = parsedObs.CMT;
         cmt.onchange = function() {
             parsedObs.CMT = cmt.value;
             updateObs(parsedObs);
         }
 
-        var br0 = document.createElement("br");
+        var br0 = document.createElement('br');
 
-        var label1 = document.createElement("label");
-        label1.class = "control-label";
-        label1.appendChild(document.createTextNode("Medio de pago"));
+        var label1 = document.createElement('label');
+        label1.class = 'control-label';
+        label1.appendChild(document.createTextNode('Medio de pago'));
 
-        var mdp = document.createElement("textarea");
-        mdp.style.marginBottom = "30px";
+        var mdp = document.createElement('textarea');
+        mdp.style.marginBottom = '30px';
         mdp.value = parsedObs.MDP;
         mdp.onchange = function() {
             parsedObs.MDP = mdp.value;
             updateObs(parsedObs);
         }
 
-        var br1 = document.createElement("br");
+        var br1 = document.createElement('br');
 
-        var label2 = document.createElement("label");
-        label2.class = "control-label";
-        label2.appendChild(document.createTextNode("Agregar medio"));
+        var label2 = document.createElement('label');
+        label2.class = 'control-label';
+        label2.appendChild(document.createTextNode('Agregar medio'));
 
-        var pct = document.createElement("input");
+        var pct = document.createElement('input');
         pct.classList.add('form-control');
         pct.type = 'number';
+        pct.value = 100;
 
-        var label3 = document.createElement("span");
-        label3.appendChild(document.createTextNode(" %"));
-        label3.style.marginRight = "10px";
+        var label3 = document.createElement('span');
+        label3.appendChild(document.createTextNode(' %'));
+        label3.style.marginRight = '10px';
 
-        var select = document.createElement("select");
-        var opt1 = document.createElement("option");
-        opt1.appendChild(document.createTextNode("APORTE"));
-        var opt2 = document.createElement("option");
-        opt2.appendChild(document.createTextNode("CANJE"));
-        var opt3 = document.createElement("option");
-        opt3.appendChild(document.createTextNode("CH-Fis"));
-        var opt4 = document.createElement("option");
-        opt4.appendChild(document.createTextNode("Echeq"));
-        var opt5 = document.createElement("option");
-        opt5.appendChild(document.createTextNode("TC"));
-        var opt6 = document.createElement("option");
-        opt6.appendChild(document.createTextNode("Transf"));
-        var opt7 = document.createElement("option");
-        opt7.appendChild(document.createTextNode("CH-Fis-Terc"));
-        var opt8 = document.createElement("option");
-        opt8.appendChild(document.createTextNode("Echeq-Terc"));
+        var select = document.createElement('select');
+        var opt1 = document.createElement('option');
+        opt1.appendChild(document.createTextNode('APORTE'));
+        var opt2 = document.createElement('option');
+        opt2.appendChild(document.createTextNode('CANJE'));
+        var opt3 = document.createElement('option');
+        opt3.appendChild(document.createTextNode('CH-Fis'));
+        var opt4 = document.createElement('option');
+        opt4.appendChild(document.createTextNode('Echeq'));
+        var opt5 = document.createElement('option');
+        opt5.appendChild(document.createTextNode('TC'));
+        var opt6 = document.createElement('option');
+        opt6.appendChild(document.createTextNode('Transf'));
+        var opt7 = document.createElement('option');
+        opt7.appendChild(document.createTextNode('CH-Fis-Terc'));
+        var opt8 = document.createElement('option');
+        opt8.appendChild(document.createTextNode('Echeq-Terc'));
         select.appendChild(opt1);
         select.appendChild(opt2);
         select.appendChild(opt3);
@@ -128,22 +129,24 @@
         select.appendChild(opt6);
         select.appendChild(opt7);
         select.appendChild(opt8);
-        select.style.marginRight = "10px";
+        select.style.marginRight = '10px';
+        select.value = 'Transf';
 
-        var d = document.createElement("input");
+        var d = document.createElement('input');
         d.classList.add('form-control');
         d.type = 'number';
+        d.value = 30;
 
-        var label4 = document.createElement("span");
-        label4.appendChild(document.createTextNode(" d"));
-        label4.style.marginRight = "10px";
+        var label4 = document.createElement('span');
+        label4.appendChild(document.createTextNode(' d'));
+        label4.style.marginRight = '10px';
 
-        var btn0 = document.createElement("span");
-        btn0.style.border = "1px solid #000000";
-        btn0.style.padding = "5px";
-        btn0.style.backgroundColor = "#cccccc";
-        btn0.style.cursor = "pointer";
-        btn0.appendChild(document.createTextNode("Agregar"));
+        var btn0 = document.createElement('span');
+        btn0.style.border = '1px solid #000000';
+        btn0.style.padding = '5px';
+        btn0.style.backgroundColor = '#cccccc';
+        btn0.style.cursor = 'pointer';
+        btn0.appendChild(document.createTextNode('Agregar'));
         btn0.onclick = function() {
             if (pct.value == '' || d.value == '') {
                 alert('Faltan datos')
@@ -178,12 +181,12 @@
 
         var frame1 = document.getElementById('opciones-vinculaciones');
 
-        var btn1 = document.createElement("span");
-        btn1.style.border = "1px solid #000000";
-        btn1.style.padding = "5px";
-        btn1.style.backgroundColor = "#cccccc";
-        btn1.style.cursor = "pointer";
-        btn1.appendChild(document.createTextNode("Ver obs"));
+        var btn1 = document.createElement('span');
+        btn1.style.border = '1px solid #000000';
+        btn1.style.padding = '5px';
+        btn1.style.backgroundColor = '#cccccc';
+        btn1.style.cursor = 'pointer';
+        btn1.appendChild(document.createTextNode('Ver obs'));
         btn1.onclick = function() {
             var tbl = document.getElementById('DetalleGrid');
 
@@ -192,7 +195,7 @@
 
             for (let i = 0, row; row = tbl.rows[i]; i++) {
                 for (let j = 0, col; col = row.cells[j]; j++) {
-                    if (col.getAttribute("aria-describedby") == "DetalleGrid_ItemVinculable") {
+                    if (col.getAttribute('aria-describedby') == 'DetalleGrid_ItemVinculable') {
                         let json = col.title;
                         json = json.replace('_TERRAJSON_','').replaceAll("'",'"');
                         json = JSON.parse(json);
@@ -217,7 +220,7 @@
 
             for (let i = 1, row; row = tbl.rows[i]; i++) {
                 for (let j = 0, col; col = row.cells[j]; j++) {
-                    if (col.getAttribute("aria-describedby") == "DetalleGrid_Unidad_Medida") {
+                    if (col.getAttribute('aria-describedby') == 'DetalleGrid_Unidad_Medida') {
                         console.log(col.title);
                         col.title = rows[i - 1][1];
                         col.appendChild(document.createTextNode(rows[i - 1][1]));
