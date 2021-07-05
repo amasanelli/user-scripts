@@ -197,11 +197,16 @@
                 for (let j = 0, col; col = row.cells[j]; j++) {
                     if (col.getAttribute('aria-describedby') == 'DetalleGrid_ItemVinculable') {
                         let json = col.title;
-                        json = json.replace('_TERRAJSON_','').replaceAll("'",'"');
-                        json = JSON.parse(json);
-                        let id = json.ID_Comprobante;
-                        comprobantes.add(id);
-                        rows.push([id,'']);
+                        try {
+                            json = json.replace('_TERRAJSON_','').replaceAll("'",'"');
+                            json = JSON.parse(json);
+                            let id = json.ID_Comprobante;
+                            comprobantes.add(id);
+                            rows.push([id,'']);
+                        } catch (err) {
+                            console.log('Item sin detalle item vinculable');
+                        }
+                        break;
                     }
                 }
             }
@@ -217,6 +222,8 @@
 
             var head = document.getElementById('jqgh_DetalleGrid_Unidad_Medida');
             head.innerHTML = 'Observaciones';
+
+            if (rows.length == 0) { return }
 
             for (let i = 1, row; row = tbl.rows[i]; i++) {
                 for (let j = 0, col; col = row.cells[j]; j++) {
@@ -234,6 +241,8 @@
     }
 
     var tipo = document.getElementById('ID_Tipo_Comprobante');
+    if (!tipo) { return }
+
     if (tipo.type == 'hidden') {
         addPatch();
     } else {
