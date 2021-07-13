@@ -121,6 +121,8 @@
         opt7.appendChild(document.createTextNode('CH-Fis-Terc'));
         var opt8 = document.createElement('option');
         opt8.appendChild(document.createTextNode('Echeq-Terc'));
+        var opt9 = document.createElement('option');
+        opt9.appendChild(document.createTextNode('COMPENSACION'));
         select.appendChild(opt1);
         select.appendChild(opt2);
         select.appendChild(opt3);
@@ -129,6 +131,7 @@
         select.appendChild(opt6);
         select.appendChild(opt7);
         select.appendChild(opt8);
+        select.appendChild(opt9);
         select.style.marginRight = '10px';
         select.value = 'Transf';
 
