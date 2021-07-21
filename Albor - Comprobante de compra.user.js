@@ -231,9 +231,7 @@
             for (let i = 1, row; row = tbl.rows[i]; i++) {
                 for (let j = 0, col; col = row.cells[j]; j++) {
                     if (col.getAttribute('aria-describedby') == 'DetalleGrid_Unidad_Medida') {
-                        console.log(col.title);
-                        col.title = rows[i - 1][1];
-                        col.appendChild(document.createTextNode(rows[i - 1][1]));
+                        col.innerHTML = rows[i - 1][1];
                     }
                 }
             }
@@ -241,7 +239,54 @@
 
         frame1.appendChild(btn1);
 
+        window.setInterval(function() {
+            var frame2 = document.getElementById('dialog-vinculaciones');
+
+            var visible = frame2.innerHTML.includes('<') && frame2.parentNode.style.display != 'none';
+
+            if (visible && !visible_old) {
+                var btn2 = document.createElement('span');
+
+                btn2.style.border = '1px solid #000000';
+                btn2.style.padding = '5px';
+                btn2.style.backgroundColor = '#cccccc';
+                btn2.style.cursor = 'pointer';
+                btn2.appendChild(document.createTextNode('Ver obs'));
+                btn2.onclick = function() {
+                    var tbl = document.getElementById('GridVinculacionesPosibles');
+
+                    var head = document.getElementById('jqgh_GridVinculacionesPosibles_Numero_Comprobante');
+                    head.innerHTML = 'Observaciones';
+
+                    var rows = [];
+
+                    for (let i = 0, row; row = tbl.rows[i]; i++) {
+                        for (let j = 0, col; col = row.cells[j]; j++) {
+                            if (col.getAttribute('aria-describedby') == 'GridVinculacionesPosibles_Comprobante') {
+                                console.log(col.title);
+                                rows.push(getComprobante(col.title));
+                            }
+                        }
+                    }
+
+                    for (let i = 0, row; row = tbl.rows[i]; i++) {
+                        for (let j = 0, col; col = row.cells[j]; j++) {
+                            if (col.getAttribute('aria-describedby') == 'GridVinculacionesPosibles_Numero_Comprobante') {
+                                col.innerHTML = rows[i];
+                            }
+                        }
+                    }
+                }
+
+                frame2.appendChild(btn2);
+            }
+
+            visible_old = visible;
+        }, 1000);
+
     }
+
+    var visible_old = false;
 
     var tipo = document.getElementById('ID_Tipo_Comprobante');
     if (!tipo) { return }
