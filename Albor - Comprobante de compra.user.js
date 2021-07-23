@@ -105,33 +105,13 @@
         label3.style.marginRight = '10px';
 
         var select = document.createElement('select');
-        var opt1 = document.createElement('option');
-        opt1.appendChild(document.createTextNode('APORTE'));
-        var opt2 = document.createElement('option');
-        opt2.appendChild(document.createTextNode('CANJE'));
-        var opt3 = document.createElement('option');
-        opt3.appendChild(document.createTextNode('CH-Fis'));
-        var opt4 = document.createElement('option');
-        opt4.appendChild(document.createTextNode('Echeq'));
-        var opt5 = document.createElement('option');
-        opt5.appendChild(document.createTextNode('TC'));
-        var opt6 = document.createElement('option');
-        opt6.appendChild(document.createTextNode('Transf'));
-        var opt7 = document.createElement('option');
-        opt7.appendChild(document.createTextNode('CH-Fis-Terc'));
-        var opt8 = document.createElement('option');
-        opt8.appendChild(document.createTextNode('Echeq-Terc'));
-        var opt9 = document.createElement('option');
-        opt9.appendChild(document.createTextNode('COMPENSACION'));
-        select.appendChild(opt1);
-        select.appendChild(opt2);
-        select.appendChild(opt3);
-        select.appendChild(opt4);
-        select.appendChild(opt5);
-        select.appendChild(opt6);
-        select.appendChild(opt7);
-        select.appendChild(opt8);
-        select.appendChild(opt9);
+
+        var opts = ['APORTE', 'CANJE', 'CH-Fis', 'Echeq', 'TC', 'Transf', 'CH-Fis-Terc', 'Echeq-Terc', 'COMPENSACION', 'MUTUO'];
+        for (var i=0; i < opts.length; i++) {
+            let opt = document.createElement('option');
+            opt.appendChild(document.createTextNode(opts[i]));
+            select.appendChild(opt);
+        }
         select.style.marginRight = '10px';
         select.value = 'Transf';
 
