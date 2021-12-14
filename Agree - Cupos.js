@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Comprobante%20de%20compra.user.js
-// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Comprobante%20de%20compra.user.js
+// @updateURL    https://raw.githubusercontent.com/amasanelli/albor-patch/main/Agree%20-%20Cupos.js
+// @downloadURL  https://raw.githubusercontent.com/amasanelli/albor-patch/main/Agree%20-%20Cupos.js
 // ==/UserScript==
 
 (function() {
@@ -41,7 +41,18 @@
         return document.getElementById(id) && document.getElementById(id).value ? document.getElementById(id).value : '-';
     }
 
+    var urlChanged = true;
+    var currentPage = location.href;
+    setInterval(function() {
+        if (currentPage != location.href) {
+            currentPage = location.href;
+            urlChanged = true;
+        }
+    }, 2000);
+
     const timer = window.setInterval(function() {
+        if (getElementByXPath("//*[text() = 'Lote de Cupos']") == null || !urlChanged) { return }
+
         try {
             const box = getElementByXPath("//div[@class='content-box']");
 
@@ -193,18 +204,16 @@
                     var cupo = JSON.parse(JSON.stringify(obj));
                     cupo.id_cupo = getElementByXPath("(//table)[2]//tbody//tr[" + (i + 1) + "]//td[1]").textContent;
                     const fecha = cupo.id_cupo.split('-')[1];
-                    console.log((fecha.substring(4) + ' ' + fecha.substring(2,4)  + ' ' + fecha.substring(0,2)));
                     cupo.fecha_cupo = new Date(fecha.substring(4), fecha.substring(2,4) - 1, fecha.substring(0,2));
                     cupos.push(cupo);
                 }
-
-                console.log(cupos);
             }
             box.appendChild(btn);
 
-            clearInterval(timer);
+            //clearInterval(timer);
+            urlChanged = false;
         } catch(e) {
             console.log(e);
         }
-    }, 1000);
+    }, 2000);
 })();
