@@ -106,7 +106,7 @@
 
         var select = document.createElement('select');
 
-        var opts = ['APORTE', 'CANJE', 'CH-Fis', 'Echeq', 'TC', 'Transf', 'CH-Fis-Terc', 'Echeq-Terc', 'COMPENSACION', 'MUTUO'];
+        var opts = ['APORTE', 'CANJE', 'CH-Fis', 'Echeq', 'TC', 'Transf', 'CH-Fis-Terc', 'Echeq-Terc', 'COMPENSACION', 'MUTUO', 'Con descuento 5%'];
         for (var i=0; i < opts.length; i++) {
             let opt = document.createElement('option');
             opt.appendChild(document.createTextNode(opts[i]));
