@@ -13,7 +13,6 @@
 // ==/UserScript==
 
 (function() {
-    'use strict';
 
     function getElementByXPath(xpath) {
         return new XPathEvaluator()
