@@ -37,7 +37,11 @@
     }
 
     function getData(id) {
-        return document.getElementById(id) && document.getElementById(id).value ? document.getElementById(id).value : '-';
+        return document.getElementById(id) && document.getElementById(id).value ? document.getElementById(id).value : undefined;
+    }
+
+    function mes(str) {
+        return str.toLowerCase().replace('ene', 'jan').replace('abr', 'apr').replace('ago', 'aug').replace('dic', 'dec');
     }
 
     var urlChanged = true;
@@ -61,15 +65,15 @@
             tbl.innerHTML = `<tr><td width=300>*Datos faltantes*</td><td width=200>Nombre/Detalle</td><td width=200>CUIT</td></tr>
             <tr><td>*Titular Carta Porte*</td><td><input id="cp_titular_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_titular_cuit" type="number" style="width: 200px; text-align: center;" value=""></td></tr>
             <tr><td>*Remitente Comercial Productor*</td><td><input id="cp_rte_com_prod_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_rte_com_prod_cuit" type="number" style="width: 200px; text-align: center;" value=""></td></tr>
-            <tr><td>*Remitente Comercial Venta Primaria*</td><td><input id="cp_rte_com_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[1]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[1]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Remitente Comercial Venta Secundaria*</td><td><input id="cp_rte_com_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[2]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[2]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Remitente Comercial Venta Primaria*</td><td><input id="cp_rte_com_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[1]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[1]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Remitente Comercial Venta Secundaria*</td><td><input id="cp_rte_com_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[2]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[2]//td[3]").textContent) + `"></td></tr>
             <tr><td>*Remitente Comercial Venta Secundaria 2*</td><td><input id="cp_rte_com_vta_sec_2_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_rte_com_vta_sec_2_cuit" style="width: 200px; text-align: center;" value=""></td></tr>
             <tr><td>*Mercado a Término*</td><td><input id="cp_merc_a_ter_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_merc_a_ter_cuit" style="width: 200px; text-align: center;" value=""></td></tr>
-            <tr><td>*Corredor Venta Primaria*</td><td><input id="cp_corr_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[3]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[3]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Corredor Venta Secundaria*</td><td><input id="cp_corr_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[4]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[4]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Representante / Entregador*</td><td><input id="cp_repr_entr_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[5]//td[2]").textContent + `"></td><td><input id="cp_repr_entr_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[5]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Destinatario*</td><td><input id="cp_destinatario_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[6]//td[2]").textContent + `"></td><td><input id="cp_destinatario_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[6]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Destino*</td><td><input id="cp_destino_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table)[1]//tr[7]//td[2]").textContent + `"></td><td><input id="cp_destino_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table)[1]//tr[7]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Corredor Venta Primaria*</td><td><input id="cp_corr_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[3]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[3]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Corredor Venta Secundaria*</td><td><input id="cp_corr_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[4]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[4]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Representante / Entregador*</td><td><input id="cp_repr_entr_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[5]//td[2]").textContent + `"></td><td><input id="cp_repr_entr_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[5]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Destinatario*</td><td><input id="cp_destinatario_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[6]//td[2]").textContent + `"></td><td><input id="cp_destinatario_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[6]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Destino*</td><td><input id="cp_destino_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[7]//td[2]").textContent + `"></td><td><input id="cp_destino_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[7]//td[3]").textContent) + `"></td></tr>
             <tr><td>-</td><td></td><td></td></tr>
             <tr><td>*Planta*</td><td><input id="cp_planta" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("//div[@class='batch-address']/div/div[3]").textContent) + `"></td><td></td></tr>
             <tr><td>*Dirección*</td><td><input id="cp_direccion" style="width: 200px; text-align: center;" value="` + getElementByXPath("//div[@class='batch-address']/div/div[2]").textContent + `"></td><td></td></tr>
@@ -112,21 +116,21 @@
                 </select>
             </td><td></td></tr>
             <tr><td>*Organización*</td><td id="org">agropack</td><td></td></tr>
-            <tr><td>*Usuario*</td><td id="user_cupo">tferri</td><td></td></tr>
+            <tr><td>*Usuario*</td><td id="user">tferri</td><td></td></tr>
             <tr><td>*Entregar a*</td><td><input id="id_pedido" style="width: 200px; text-align: center;" value=""></td><td></td></tr>`;
             box.appendChild(tbl);
 
             var btn = document.createElement('button');
             btn.innerHTML = 'Aceptar';
             btn.onclick = function() {
-                const cupos_count = countElementsByXPath("(//table)[2]//tbody//tr");
+                const cupos_count = countElementsByXPath("(//table[contains(@class, 'table table-condensed')])[2]//tbody//tr");
 
                 if (cupos_count == 0) {
                     alert('Faltan cupos!');
                     return;
                 }
 
-                if (getData('cultivo') == '-' || getData('puerto') == '-') {
+                if (getData('cultivo') == undefined || getData('puerto') == undefined) {
                     alert('Faltan datos!');
                     return;
                 }
@@ -134,8 +138,8 @@
                 const obj = {
                     'id_cupo': undefined,
                     'fecha_cupo': undefined,
-                    'org': getData('org'),
-                    'user_cupo': getData('user_cupo'),
+                    'org': document.getElementById('org').textContent,
+                    'user': document.getElementById('user').textContent,
                     'cultivo': getData('cultivo'),
                     'puerto': getData('puerto'),
                     'id_pedido': getData('id_pedido'),
@@ -197,15 +201,34 @@
                     }
                 };
 
+                var ok = true;
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.response != 'OK') {
+                        console.log(xhr.response);
+                        ok = false;
+                    }
+                };
                 var cupos = [];
 
                 for (let i=0; i < cupos_count; i++) {
                     var cupo = JSON.parse(JSON.stringify(obj));
-                    cupo.id_cupo = getElementByXPath("(//table)[2]//tbody//tr[" + (i + 1) + "]//td[1]").textContent;
-                    const fecha = cupo.id_cupo.split('-')[1];
-                    cupo.fecha_cupo = new Date(fecha.substring(4), fecha.substring(2,4) - 1, fecha.substring(0,2));
+                    cupo.id_cupo = getElementByXPath("(//table[contains(@class, 'table table-condensed')])[2]//tbody//tr[" + (i + 1) + "]//td[1]").textContent;
+                    const fecha = getElementByXPath("//div[@class='date']//span").textContent;
+                    cupo.fecha_cupo = new Date(mes(fecha));
                     cupos.push(cupo);
+
+                    xhr.open('POST', 'http://localhost:3000/back/cupos/cupos', false);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(cupo));
                 }
+
+                if (ok == true) {
+                    alert('Cupos cargados!')
+                } else {
+                    alert('Hubo problemas!')
+                }
+                console.log(cupos);
             }
             box.appendChild(btn);
 
