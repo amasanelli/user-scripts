@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Comprobante%20de%20compra.user.js
-// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Comprobante%20de%20compra.user.js
+// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
+// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
 // ==/UserScript==
 
 (function() {
