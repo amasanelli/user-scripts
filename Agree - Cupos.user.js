@@ -8,8 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.js
-// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.js
+// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.user.js
+// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.user.js
 // ==/UserScript==
 
 (function() {
