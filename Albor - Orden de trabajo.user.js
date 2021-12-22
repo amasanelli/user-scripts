@@ -33,6 +33,7 @@
                 res.CMT = element.substring(4);
             } else {
                 res.CMT = element;
+                res.DES = false;
             }
         }
         console.log(res);
