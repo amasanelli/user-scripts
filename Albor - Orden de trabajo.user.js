@@ -52,6 +52,7 @@
         obs.style.backgroundColor = '#f2f2f2';
 
         var parsedObs = parseObs(obs.value);
+        updateObs(parsedObs);
 
         var frame0 = getElementByXPath("//div[@id='OTGenerales']//ul");
 
