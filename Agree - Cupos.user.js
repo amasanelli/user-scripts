@@ -218,7 +218,7 @@
                     cupo.fecha_cupo = new Date(mes(fecha));
                     cupos.push(cupo);
 
-                    xhr.open('POST', 'http://localhost:3000/back/cupos/cupos', false);
+                    xhr.open('POST', 'https://greeneye.herokuapp.com/back/cupos/cupos', false);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(cupo));
                 }
