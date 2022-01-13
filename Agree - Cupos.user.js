@@ -4,12 +4,12 @@
 // @namespace    https://github.com/amasanelli/albor-patch
 // @description  Envia datos de cupos a Green Eye
 // @author       masanelli.a
-// @match        https://app.agree.ag/company/1409/slots/*
+// @match        https://app.agree.ag/company/1409/*
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.user.js
-// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.user.js
+// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.js
+// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Agree%20-%20Cupos.js
 // ==/UserScript==
 
 (function() {
@@ -51,7 +51,7 @@
             currentPage = location.href;
             urlChanged = true;
         }
-    }, 2000);
+    }, 1000);
 
     const timer = window.setInterval(function() {
         if (getElementByXPath("//*[text() = 'Lote de Cupos']") == null || !urlChanged) { return }
@@ -218,7 +218,7 @@
                     cupo.fecha_cupo = new Date(mes(fecha));
                     cupos.push(cupo);
 
-                    xhr.open('POST', 'https://greeneye.herokuapp.com/back/cupos/cupos', false);
+                    xhr.open('POST', 'http://localhost:3000/back/cupos/cupos', false);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(cupo));
                 }
