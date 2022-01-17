@@ -21,14 +21,22 @@
             .singleNodeValue
     }
 
+
+
     function getCPItem(item, col) {
         const items = countElementsByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr//td[1]");
+
+        if(items < 8) {
+            throw 'No data';
+        }
 
         for(let i=1; i<=items; i++) {
             if(getElementByXPath(`(//table[contains(@class, 'table table-condensed')])[1]//tr[${i}]//td[1]`).textContent == item) {
                 return getElementByXPath(`(//table[contains(@class, 'table table-condensed')])[1]//tr[${i}]//td[${col}]`).textContent;
             }
         }
+
+        return '';
     }
 
     function countElementsByXPath(xpath) {
