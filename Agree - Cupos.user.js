@@ -21,6 +21,16 @@
             .singleNodeValue
     }
 
+    function getCPItem(item, col) {
+        const items = countElementsByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr//td[1]");
+
+        for(let i=1; i<=items; i++) {
+            if(getElementByXPath(`(//table[contains(@class, 'table table-condensed')])[1]//tr[${i}]//td[1]`).textContent == item) {
+                return getElementByXPath(`(//table[contains(@class, 'table table-condensed')])[1]//tr[${i}]//td[${col}]`).textContent;
+            }
+        }
+    }
+
     function countElementsByXPath(xpath) {
         return new XPathEvaluator()
             .createExpression('count(' + xpath + ')')
@@ -40,7 +50,7 @@
         return document.getElementById(id) && document.getElementById(id).value ? document.getElementById(id).value : undefined;
     }
 
-    function mes(str) {
+    function month(str) {
         return str.toLowerCase().replace('ene', 'jan').replace('abr', 'apr').replace('ago', 'aug').replace('dic', 'dec');
     }
 
@@ -65,15 +75,15 @@
             tbl.innerHTML = `<tr><td width=300>*Datos faltantes*</td><td width=200>Nombre/Detalle</td><td width=200>CUIT</td></tr>
             <tr><td>*Titular Carta Porte*</td><td><input id="cp_titular_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_titular_cuit" type="number" style="width: 200px; text-align: center;" value=""></td></tr>
             <tr><td>*Remitente Comercial Productor*</td><td><input id="cp_rte_com_prod_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_rte_com_prod_cuit" type="number" style="width: 200px; text-align: center;" value=""></td></tr>
-            <tr><td>*Remitente Comercial Venta Primaria*</td><td><input id="cp_rte_com_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[1]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[1]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Remitente Comercial Venta Secundaria*</td><td><input id="cp_rte_com_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[2]//td[2]").textContent + `"></td><td><input id="cp_rte_com_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[2]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Remitente Comercial Venta Secundaria 2*</td><td><input id="cp_rte_com_vta_sec_2_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_rte_com_vta_sec_2_cuit" style="width: 200px; text-align: center;" value=""></td></tr>
+            <tr><td>*Remitente Comercial Venta Primaria*</td><td><input id="cp_rte_com_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Rte. Comercial Venta Primaria', 2) + `"></td><td><input id="cp_rte_com_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Rte. Comercial Venta Primaria', 3)) + `"></td></tr>
+            <tr><td>*Remitente Comercial Venta Secundaria*</td><td><input id="cp_rte_com_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Rte. Comercial Venta Secundaria', 2) + `"></td><td><input id="cp_rte_com_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Rte. Comercial Venta Secundaria', 3)) + `"></td></tr>
+            <tr><td>*Remitente Comercial Venta Secundaria 2*</td><td><input id="cp_rte_com_vta_sec_2_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Rte. Comercial Venta Secundaria 2', 2) + `"></td><td><input id="cp_rte_com_vta_sec_2_cuit" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Rte. Comercial Venta Secundaria 2', 3)) + `"></td></tr>
             <tr><td>*Mercado a Término*</td><td><input id="cp_merc_a_ter_nombre" style="width: 200px; text-align: center;" value=""></td><td><input id="cp_merc_a_ter_cuit" style="width: 200px; text-align: center;" value=""></td></tr>
-            <tr><td>*Corredor Venta Primaria*</td><td><input id="cp_corr_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[3]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[3]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Corredor Venta Secundaria*</td><td><input id="cp_corr_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[4]//td[2]").textContent + `"></td><td><input id="cp_corr_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[4]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Representante / Entregador*</td><td><input id="cp_repr_entr_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[5]//td[2]").textContent + `"></td><td><input id="cp_repr_entr_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[5]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Destinatario*</td><td><input id="cp_destinatario_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[7]//td[2]").textContent + `"></td><td><input id="cp_destinatario_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[6]//td[3]").textContent) + `"></td></tr>
-            <tr><td>*Destino*</td><td><input id="cp_destino_nombre" style="width: 200px; text-align: center;" value="` + getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[8]//td[2]").textContent + `"></td><td><input id="cp_destino_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("(//table[contains(@class, 'table table-condensed')])[1]//tr[7]//td[3]").textContent) + `"></td></tr>
+            <tr><td>*Corredor Venta Primaria*</td><td><input id="cp_corr_vta_pri_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Corredor Venta Primaria', 2) + `"></td><td><input id="cp_corr_vta_pri_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Corredor Venta Primaria', 3)) + `"></td></tr>
+            <tr><td>*Corredor Venta Secundaria*</td><td><input id="cp_corr_vta_sec_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Corredor Venta Secundaria', 2) + `"></td><td><input id="cp_corr_vta_sec_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Corredor Venta Secundaria', 3)) + `"></td></tr>
+            <tr><td>*Representante / Entregador*</td><td><input id="cp_repr_entr_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Representante entregador', 2) + `"></td><td><input id="cp_repr_entr_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Representante entregador', 3)) + `"></td></tr>
+            <tr><td>*Destinatario*</td><td><input id="cp_destinatario_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Destinatario', 2) + `"></td><td><input id="cp_destinatario_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Destinatario', 3)) + `"></td></tr>
+            <tr><td>*Destino*</td><td><input id="cp_destino_nombre" style="width: 200px; text-align: center;" value="` + getCPItem('Destino', 2) + `"></td><td><input id="cp_destino_cuit" type="number" style="width: 200px; text-align: center;" value="` + getNumber(getCPItem('Destino', 3)) + `"></td></tr>
             <tr><td>-</td><td></td><td></td></tr>
             <tr><td>*Planta*</td><td><input id="cp_planta" style="width: 200px; text-align: center;" value="` + getNumber(getElementByXPath("//div[@class='batch-address']/div/div[3]").textContent) + `"></td><td></td></tr>
             <tr><td>*Dirección*</td><td><input id="cp_direccion" style="width: 200px; text-align: center;" value="` + getElementByXPath("//div[@class='batch-address']/div/div[2]").textContent + `"></td><td></td></tr>
@@ -215,7 +225,7 @@
                     var cupo = JSON.parse(JSON.stringify(obj));
                     cupo.id_cupo = getElementByXPath("(//table[contains(@class, 'table table-condensed')])[2]//tbody//tr[" + (i + 1) + "]//td[1]").textContent;
                     const fecha = getElementByXPath("//div[@class='date']//span").textContent;
-                    cupo.fecha_cupo = new Date(mes(fecha));
+                    cupo.fecha_cupo = new Date(month(fecha));
                     cupos.push(cupo);
 
                     xhr.open('POST', 'https://greeneye.herokuapp.com/back/cupos/cupos', false);
