@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agree - Cupos
-// @version      1.0
+// @version      2.0
 // @namespace    https://github.com/amasanelli/albor-patch
 // @description  Envia datos de cupos a Green Eye
 // @author       masanelli.a
@@ -236,7 +236,8 @@
                     cupo.fecha_cupo = new Date(month(fecha));
                     cupos.push(cupo);
 
-                    xhr.open('POST', 'https://greeneye.herokuapp.com/back/cupos/cupos', false);
+                    //xhr.open('POST', 'https://greeneye.herokuapp.com/back/cupos/cupos', false);
+                    xhr.open('POST', 'http://localhost:3000/back/cupos/cupos', false);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify(cupo));
                 }
