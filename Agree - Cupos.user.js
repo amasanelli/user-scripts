@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agree - Cupos
-// @version      3.0
+// @version      3.1
 // @namespace    https://github.com/amasanelli/albor-patch
 // @description  Envia datos de cupos a Green Eye
 // @author       masanelli.a
@@ -131,6 +131,7 @@
                     <option value="ROSARIO">ROSARIO</option>
                     <option value="VILLA MADERO">VILLA MADERO</option>
                     <option value="VILLA PARANACITO">VILLA PARANACITO</option>
+                    <option value="VILLA RAMALLO">VILLA RAMALLO</option>
                 </select>
             </td><td></td></tr>
             <tr><td>*Organización*</td><td id="org">agropack</td><td></td></tr>
