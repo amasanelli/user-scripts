@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Albor - Orden de trabajo
 // @version      1.0
-// @namespace    https://github.com/amasanelli/albor-patch
+// @namespace    https://github.com/amasanelli/user-scripts
 // @description  Agrega tilde descuento a OT
 // @author       masanelli.a
 // @match        https://adblick.alboragro.com/1/Ordenes_Trabajo/*
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
-// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
+// @updateURL    https://github.com/amasanelli/user-scripts/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
+// @downloadURL  https://github.com/amasanelli/user-scripts/raw/main/Albor%20-%20Orden%20de%20trabajo.user.js
 // ==/UserScript==
 
 (function() {
