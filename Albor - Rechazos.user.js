@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Albor - Rechazos
 // @version      1.0
-// @namespace    https://github.com/amasanelli/ser-scripts
+// @namespace    https://github.com/amasanelli/albor-patch
 // @description  Almacena datos de CP rechazada
 // @author       masanelli.a
 // @match        https://adblick.alboragro.com/1/Comprobantes_Cosecha
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://github.com/amasanelli/user-scripts/raw/main/Albor%20-%20Rechazos.user.js
-// @downloadURL  https://github.com/amasanelli/user-scripts/raw/main/Albor%20-%20Rechazos.user.js
+// @updateURL    https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Rechazos.user.js
+// @downloadURL  https://github.com/amasanelli/albor-patch/raw/main/Albor%20-%20Rechazos.user.js
 // ==/UserScript==
 
 (function() {
@@ -78,20 +78,32 @@
         var btnRechazar = document.createElement('button');
         btnRechazar.textContent = 'Rechazar';
         btnRechazar.onclick = function(event) {
+
+            const pv_destino = parseInt(document.getElementById('pv_destino').value);
+            const cp_destino = parseInt(document.getElementById('cp_destino').value);
+
+            if (!pv_destino || !cp_destino) {
+                return alert('Faltan datos')
+            }
+
             var json = {
                 'motivos': [],
                 'id_cp_origen': id_cp_origen,
-                'pv_destino': parseInt(document.getElementById('pv_destino').value),
-                'cp_destino': parseInt(document.getElementById('cp_destino').value),
+                'pv_destino': pv_destino,
+                'cp_destino': cp_destino,
             }
 
-            var motivos = document.getElementById('motivos');
-
-            console.log(motivos.children.length);
+            const motivos = document.getElementById('motivos');
 
             for (let i = 0; i < motivos.children.length; i++) {
-                var motivo = motivos.children[i];
-                json.motivos.push({'motivo': motivo.children[0].value, 'valor': parseInt(motivo.children[1].value)});
+                const motivo = motivos.children[i].children[0].value;
+                const valor = parseInt(motivos.children[i].children[1].value);
+
+                if (motivo == '' || !valor) {
+                    return alert('Faltan datos')
+                }
+
+                json.motivos.push({'motivo': motivo, 'valor': valor});
             }
 
             console.log(json);
