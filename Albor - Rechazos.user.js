@@ -15,25 +15,31 @@
 (function() {
     'use strict';
 
-    var select_html = `
-    <select style="width: 150px; text-align: center;">
-    <option value="">Completar</option>
-    <option value="BAHIA BLANCA">BAHIA BLANCA</option>
-    <option value="CAÑUELAS">CAÑUELAS</option>
-    <option value="JUNIN">JUNIN</option>
-    <option value="LAS PALMAS">LAS PALMAS</option>
-    <option value="LIMA">LIMA</option>
-    <option value="NECOCHEA">NECOCHEA</option>
-    <option value="ROSARIO">ROSARIO</option>
-    <option value="VILLA MADERO">VILLA MADERO</option>
-    <option value="VILLA PARANACITO">VILLA PARANACITO</option>
-    <option value="VILLA RAMALLO">VILLA RAMALLO</option>
-    </select>
+    function get_select_html() {
+        const xhr = new XMLHttpRequest();
 
-    <input type="number" style="width: 50px;"></input>
-    `
+        xhr.open('GET', 'https://query-albor-ad-hoc-r-ys4nimzqdq-uc.a.run.app', false);
+        xhr.send();
 
-    var opciones_html = `
+        var html = '<select style="width: 150px; text-align: center;"><option value="">Completar</option>';
+
+        const resp = JSON.parse(xhr.response);
+
+        if (xhr.status == 200) {
+            for(const motivo of resp.data.motivos) {
+                console.log(motivo);
+                html += `<option value="${motivo}">${motivo}</option>`;
+            }
+        }
+
+        html += '</select><input type="number" style="width: 50px;"></input>';
+
+        return html;
+    }
+
+    const select_html = get_select_html();
+
+    const opciones_html = `
     <div id="opciones">
     <span style="width: 150px; text-align: center; display: inline-block">Motivo</span>
     <span style="width: 50px; text-align: center; display: inline-block">Valor</span>
@@ -54,41 +60,51 @@
     <div>
     PV: <input id="pv_destino" type="number" style="width: 100px;"></input> - CP: <input id="cp_destino" type="number" style="width: 100px;"></input>
     </div>
+
+    <div>
+    </br>
+    <span id="estado"></span>
+    </div>
     `
 
-    function mostrarAlerta(id_cp_origen) {
+    function mostrarAlerta(id_comprobante_origen) {
         $.Alerta('cargando...', 'Rechazar');
 
-        var dialogContent = document.evaluate('//div[text()="cargando..."]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;;
+        const dialogContent = document.evaluate('//div[text()="cargando..."]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;;
         dialogContent.innerHTML = opciones_html;
 
-        var btnAgregar = document.getElementById('agregarMotivo');
+        const estado = document.getElementById('estado');
+        estado.textContent = '';
+
+        const btnAgregar = document.getElementById('agregarMotivo');
         btnAgregar.onclick = function() {
-            var container = document.getElementById('motivos');
-            var select = document.createElement('div');
+            const container = document.getElementById('motivos');
+            const select = document.createElement('div');
             select.innerHTML = select_html;
             container.appendChild(select);
         }
 
-        var btnSalir = document.getElementById('btAceptarAlerta');
+        const btnSalir = document.getElementById('btAceptarAlerta');
         btnSalir.textContent = 'Salir';
 
-        var dialogBtnSet = btnSalir.parentElement;
+        const dialogBtnSet = btnSalir.parentElement;
 
-        var btnRechazar = document.createElement('button');
+        const btnRechazar = document.createElement('button');
         btnRechazar.textContent = 'Rechazar';
         btnRechazar.onclick = function(event) {
 
-            const pv_destino = parseInt(document.getElementById('pv_destino').value);
-            const cp_destino = parseInt(document.getElementById('cp_destino').value);
+            estado.textContent = 'Procesando...';
+
+            const pv_destino = document.getElementById('pv_destino').value;
+            const cp_destino = document.getElementById('cp_destino').value;
 
             if (!pv_destino || !cp_destino) {
                 return alert('Faltan datos')
             }
 
-            var json = {
+            const data = {
                 'motivos': [],
-                'id_cp_origen': id_cp_origen,
+                'id_comprobante_origen': id_comprobante_origen,
                 'pv_destino': pv_destino,
                 'cp_destino': cp_destino,
             }
@@ -103,24 +119,45 @@
                     return alert('Faltan datos')
                 }
 
-                json.motivos.push({'motivo': motivo, 'valor': valor});
+                data.motivos.push({'motivo': motivo, 'valor': valor});
             }
 
+            console.log(data);
+
+            const encodedData = window.btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+            console.log(encodedData);
+
+            const json = {
+                'message': {
+                    'data': encodedData
+                }
+            }
             console.log(json);
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.onload = function() {
+                const resp = JSON.parse(xhr.response);
+                console.log(resp);
+                estado.textContent = resp.message;
+            };
+            xhr.open('POST', 'https://query-albor-ad-hoc-r-ys4nimzqdq-uc.a.run.app', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(json));
         }
 
         dialogBtnSet.insertBefore(btnRechazar, dialogBtnSet.firstChild);
     }
 
-    var panel = document.getElementById('btNuevoRegistro').parentElement.parentElement;
-    var li = document.createElement('li');
+    const panel = document.getElementById('btNuevoRegistro').parentElement.parentElement;
+    const li = document.createElement('li');
 
-    var a = document.createElement('a');
+    const a = document.createElement('a');
     a.href = '#';
     a.onclick = function(event) {
         event.preventDefault();
 
-        var ids = obtenerIDsSeleccionadosGrilla("#DetalleGrid");
+        const ids = obtenerIDsSeleccionadosGrilla('#DetalleGrid');
         if(ids.length == 0) {
             return alert('Seleccione un registro');
         };
@@ -134,7 +171,4 @@
 
     li.appendChild(a);
     panel.appendChild(li);
-
-
-    //mostrarReporteEnDialogo("#dialogoReporte", "NecesidadesInsumosOT", "Necesidades Insumos", undefined);
 })();
