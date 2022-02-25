@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Agree - Cupos
-// @version      3.1
+// @version      3.2
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Envia datos de cupos a Green Eye
 // @author       masanelli.a
@@ -100,40 +100,9 @@
             <tr><td>-</td><td></td><td></td></tr>
             <tr><td>*Producto*</td><td><input id="cp_producto" style="width: 200px; text-align: center;" value="` + getElementByXPath("//div[@class='product']").textContent + `"></td><td></td></tr>
             <tr><td>*Observaciones*</td><td><input id="cp_observaciones" style="width: 200px; text-align: center;" value=""></td><td></td></tr>
+            <tr><td>*Cosecha*</td><td><input id="cp_cosecha" style="width: 200px; text-align: center;" value="21/22"></td><td></td></tr>
+            <tr><td>*Contrato*</td><td><input id="cp_contrato" style="width: 200px; text-align: center;" value=""></td><td></td></tr>
             <tr><td>-</td><td></td><td></td></tr>
-            <tr><td>*Cosecha*</td><td><input id="aux_cosecha" style="width: 200px; text-align: center;" value="21/22"></td><td></td></tr>
-            <tr><td>*Contrato*</td><td><input id="aux_contrato" style="width: 200px; text-align: center;" value=""></td><td></td></tr>
-            <tr><td>-</td><td></td><td></td></tr>
-            <tr><td>*Cultivo*</td><td>
-                <select id="cultivo" style="width: 200px; text-align: center;">
-                    <option value="">Completar</option>
-                    <option value="ARVEJA">ARVEJA</option>
-                    <option value="CEBADA CERVECERA">CEBADA CERVECERA</option>
-                    <option value="CEBADA FORRAJERA">CEBADA FORRAJERA</option>
-                    <option value="COLZA">COLZA</option>
-                    <option value="GIRASOL ALTO OLEICO">GIRASOL ALTO OLEICO</option>
-                    <option value="GIRASOL COMUN">GIRASOL COMUN</option>
-                    <option value="GIRASOL CONFITERO">GIRASOL CONFITERO</option>
-                    <option value="MAIZ">MAIZ</option>
-                    <option value="SOJA">SOJA</option>
-                    <option value="TRIGO">TRIGO</option>
-                </select>
-            </td><td></td></tr>
-            <tr><td>*Puerto*</td><td>
-                <select id="puerto" style="width: 200px; text-align: center;">
-                    <option value="">Completar</option>
-                    <option value="BAHIA BLANCA">BAHIA BLANCA</option>
-                    <option value="CAÑUELAS">CAÑUELAS</option>
-                    <option value="JUNIN">JUNIN</option>
-                    <option value="LAS PALMAS">LAS PALMAS</option>
-                    <option value="LIMA">LIMA</option>
-                    <option value="NECOCHEA">NECOCHEA</option>
-                    <option value="ROSARIO">ROSARIO</option>
-                    <option value="VILLA MADERO">VILLA MADERO</option>
-                    <option value="VILLA PARANACITO">VILLA PARANACITO</option>
-                    <option value="VILLA RAMALLO">VILLA RAMALLO</option>
-                </select>
-            </td><td></td></tr>
             <tr><td>*Organización*</td><td id="org">agropack</td><td></td></tr>
             <tr><td>*Usuario*</td><td id="user">tferri</td><td></td></tr>
             <tr><td>*Entregar a*</td><td><input id="id_pedido" style="width: 200px; text-align: center;" value=""></td><td></td></tr>`;
@@ -149,18 +118,11 @@
                     return;
                 }
 
-                if (getData('cultivo') == undefined || getData('puerto') == undefined) {
-                    alert('Faltan datos!');
-                    return;
-                }
-
                 const obj = {
                     'id_cupo': undefined,
                     'fecha_cupo': undefined,
                     'org': document.getElementById('org').textContent,
                     'user': document.getElementById('user').textContent,
-                    'cultivo': getData('cultivo'),
-                    'puerto': getData('puerto'),
                     'id_pedido': getData('id_pedido'),
                     'cp': {
                         'titular': {
@@ -207,16 +169,16 @@
                             'nombre': getData('cp_destino_nombre'),
                             'cuit':  getData('cp_destino_cuit')
                         },
-                        'planta':  getData('cp_planta'),
-                        'direccion':  getData('cp_direccion'),
-                        'localidad':  getData('cp_localidad'),
-                        'provincia':  getData('cp_provincia'),
+                        'planta':  {
+                            'nombre': getData('cp_planta'),
+                            'direccion':  getData('cp_direccion'),
+                            'localidad':  getData('cp_localidad'),
+                            'provincia':  getData('cp_provincia')
+                        },
                         'producto':  getData('cp_producto'),
-                        'observaciones':  getData('cp_observaciones')
-                    },
-                    'aux': {
-                        'contrato': getData('aux_contrato'),
-                        'cosecha': getData('aux_cosecha')
+                        'observaciones':  getData('cp_observaciones'),
+                        'contrato': getData('cp_contrato'),
+                        'cosecha': getData('cp_cosecha')
                     }
                 };
 
