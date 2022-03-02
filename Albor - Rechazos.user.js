@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Albor - Rechazos
-// @version      1.0
+// @version      2.0
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Almacena datos de CP rechazada
 // @author       masanelli.a
-// @match        https://adblick.alboragro.com/1/Comprobantes_Cosecha
+// @match        https://adblick.alboragro.com/1/Comprobantes_Cosecha*
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
@@ -93,14 +93,14 @@
         btnRechazar.textContent = 'Rechazar';
         btnRechazar.onclick = function(event) {
 
-            estado.textContent = 'Procesando...';
-
             const pv_destino = document.getElementById('pv_destino').value;
             const cp_destino = document.getElementById('cp_destino').value;
 
             if (!pv_destino || !cp_destino) {
                 return alert('Faltan datos')
             }
+
+            estado.textContent = 'Procesando...';
 
             const data = {
                 'motivos': [],
