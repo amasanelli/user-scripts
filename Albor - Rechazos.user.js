@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Rechazos
-// @version      2.0
+// @version      3.0
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Almacena datos de CP rechazada
 // @author       masanelli.a
@@ -113,7 +113,7 @@
 
             for (let i = 0; i < motivos.children.length; i++) {
                 const motivo = motivos.children[i].children[0].value;
-                const valor = parseInt(motivos.children[i].children[1].value);
+                const valor = parseFloat(motivos.children[i].children[1].value);
 
                 if (motivo == '' || !valor) {
                     return alert('Faltan datos')
