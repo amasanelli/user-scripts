@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Comprobante de compra
-// @version      2.0
+// @version      2.1
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
@@ -15,7 +15,6 @@
 (function() {
 
     const opts = ['APORTE', 'CANJE', 'CH-Fis', 'Echeq', 'TC', 'Transf', 'CH-Fis-Terc', 'Echeq-Terc', 'COMPENSACION', 'MUTUO', 'Con descuento 5%'];
-    var parsedObs = {};
 
     function parseObs(obs) {
         const arr = obs.split(' | ');
@@ -57,7 +56,7 @@
         }
     }
 
-    function agregarMedioDePago() {
+    function agregarMedioDePago(parsedObs) {
         const medio_pct = document.getElementById('medio_pct').value;
         const medio_len = document.getElementById('medio_len').value;
         const medio_sel = document.getElementById('medio_sel').value;
@@ -76,7 +75,7 @@
         updateObs(parsedObs);
     }
 
-    function agregarRemito() {
+    function agregarRemito(parsedObs) {
         const remito_pre = document.getElementById('remito_pre').value;
         const remito_suf = document.getElementById('remito_suf').value;
         const rto = document.getElementById('rto');
@@ -172,7 +171,7 @@
         obs.readOnly = true;
         obs.style.backgroundColor = '#f2f2f2';
 
-        parsedObs = parseObs(obs.value);
+        const parsedObs = parseObs(obs.value);
 
         const frame0 = document.getElementById('grales-cbte-cpra');
 
@@ -253,7 +252,7 @@
         medio_sel.value = 'Transf';
 
         const medio_btn = document.getElementById('medio_btn');
-        medio_btn.addEventListener('click', agregarMedioDePago);
+        medio_btn.addEventListener('click', () => {agregarMedioDePago(parsedObs)});
 
         const rto = document.getElementById('rto');
         rto.value = parsedObs.RTO;
@@ -263,7 +262,7 @@
         }
 
         const remito_btn = document.getElementById('remito_btn');
-        remito_btn.addEventListener('click', agregarRemito);
+        remito_btn.addEventListener('click', () => {agregarRemito(parsedObs)});
 
 
         /*
