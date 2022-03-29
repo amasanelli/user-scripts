@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Comprobante de compra
-// @version      2.1
+// @version      2.2
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Agrega medio de pago a comprobante de compra
 // @author       masanelli.a
@@ -195,10 +195,10 @@
         medio_de_pago.innerHTML = `
         <label class="control-label">Agregar medio</label>
         <span class="inline-labels">
-           <input id="medio_pct" class="form-control" type="number">
+           <input id="medio_pct" class="form-control" type="number" value="100">
            <span class="control-label"> %</span>
            <select id="medio_sel" class="form-control"></select>
-           <input id="medio_len" class="form-control" type="number">
+           <input id="medio_len" class="form-control" type="number" value="30">
            <span class="control-label"> d</span>
            <input id="medio_btn" type="button" value="Agregar">
         </span>
