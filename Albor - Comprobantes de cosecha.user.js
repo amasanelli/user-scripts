@@ -52,6 +52,11 @@
 
         frame0.appendChild(patch);
 
+        const aforado = document.getElementById('Aforado');
+        aforado.onchange = function() {
+            calcular();
+        }
+
         const input = document.getElementById('pct_aforo');
         input.onchange = function() {
             calcular();
