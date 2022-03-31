@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Comprobantes de cosecha
-// @version      1.0
+// @version      1.1
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Agrega porcentaje aforo
 // @author       masanelli.a
@@ -23,7 +23,7 @@
     function calcular() {
         const aforado = document.getElementById('Aforado').checked;
         if(aforado) {
-            const input = document.getElementById('pct_aforo').value;
+            const input = document.getElementById('pct_aforo');
             const select = document.getElementById('origen_peso_aforo').value;
             const destino = document.getElementById('Peso_Aforado');
 
@@ -34,7 +34,11 @@
                 peso = document.getElementById('Peso_Destino_Neto').value;
             }
 
-            destino.value = peso * parseFloat(input);
+            peso = peso.replace('.','');
+
+            destino.value = parseInt(peso) * parseFloat(input.value);
+            destino.focus();
+            input.focus();
         }
     }
 
