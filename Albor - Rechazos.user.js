@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Albor - Rechazos
-// @version      3.0
+// @version      3.1
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Almacena datos de CP rechazada
 // @author       masanelli.a
-// @match        https://adblick.alboragro.com/1/Comprobantes_Cosecha*
+// @include      /(https://adblick.alboragro.com/1/Comprobantes_Cosecha)(?!/)/
 // @icon         https://www.google.com/s2/favicons?domain=greeneye.herokuapp.com
 // @grant        none
 // @run-at       document-idle
@@ -27,7 +27,7 @@
 
         if (xhr.status == 200) {
             for(const motivo of resp.data.motivos) {
-                console.log(motivo);
+                //console.log(motivo);
                 html += `<option value="${motivo}">${motivo}</option>`;
             }
         }
@@ -122,23 +122,23 @@
                 data.motivos.push({'motivo': motivo, 'valor': valor});
             }
 
-            console.log(data);
+            //console.log(data);
 
             const encodedData = window.btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-            console.log(encodedData);
+            //console.log(encodedData);
 
             const json = {
                 'message': {
                     'data': encodedData
                 }
             }
-            console.log(json);
+            //console.log(json);
 
             const xhr = new XMLHttpRequest();
 
             xhr.onload = function() {
                 const resp = JSON.parse(xhr.response);
-                console.log(resp);
+                //console.log(resp);
                 estado.textContent = resp.message;
             };
             xhr.open('POST', 'https://query-albor-ad-hoc-r-ys4nimzqdq-uc.a.run.app', true);
@@ -171,4 +171,6 @@
 
     li.appendChild(a);
     panel.appendChild(li);
+
+    console.log('RECHAZOS');
 })();
