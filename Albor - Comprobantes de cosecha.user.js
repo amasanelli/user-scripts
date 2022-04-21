@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Albor - Comprobantes de cosecha
-// @version      1.1
+// @version      1.2
 // @namespace    https://github.com/amasanelli/user-scripts
 // @description  Agrega porcentaje aforo
 // @author       masanelli.a
@@ -36,7 +36,7 @@
 
             peso = peso.replace('.','');
 
-            destino.value = parseInt(peso) * parseFloat(input.value);
+            destino.value = Math.round(parseInt(peso) * parseFloat(input.value));
             destino.focus();
             input.focus();
         }
